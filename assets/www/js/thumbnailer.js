@@ -10,33 +10,51 @@
  * Constructor
  */
 function Thumbnailer() {
-};
+	var THUMBNAIL_HEIGHT = 48;
+	var THUMBNAIL_WIDTH = 66;
 
-/**
- * Starts the video player intent
- *
- * @param url           The url to play
- */
-Thumbnailer.prototype.createVideoThumbnail = function(url, callback) {
-	if (url.toLowerCase().indexOf("file://")==0){
-		url =url.substring(7); 
+	function thumbError(err){
+		alert('Error creating thumbnail(s): ' + err);
+	};
+
+	return {
+		createVideoThumbnail: function(url, callback) {	
+			if (url.toLowerCase().indexOf("pg_thumbs") >= 0){
+				return;
+			}
+			if (url.toLowerCase().indexOf("file://")==0){
+				url =url.substring(7); 
+			}
+
+		    cordova.exec(callback, this.thumbError, "Thumbnailer", "createVideoThumbnail", [url]);
+		},
+
+		createImageThumbnail: function(url, callback, dimensions) {
+			if (url.toLowerCase().indexOf("pg_thumbs") >= 0){
+				return;
+			}
+			if (url.toLowerCase().indexOf("file://")==0){
+				url =url.substring(7); 
+			}
+
+			dimensions = (typeof dimensions === "undefined") ? [ THUMBNAIL_WIDTH, THUMBNAIL_HEIGHT ] : dimensions;
+		    cordova.exec(callback, this.thumbError, "Thumbnailer", "createImageThumbnail", [url, dimensions]);
+		},
+
+		createAlbumThumbnails: function(path, callback, dimensions) {
+			if (url.toLowerCase().indexOf("pg_thumbs") >= 0){
+				alert("Already within a thumbnail directory!");
+				return;
+			}
+			if (url.toLowerCase().indexOf("file://")==0){
+				url =url.substring(7); 
+			}
+
+			dimensions = (typeof dimensions === "undefined") ? [ THUMBNAIL_WIDTH, THUMBNAIL_HEIGHT ] : dimensions;
+		    cordova.exec(callback, this.thumbError, "Thumbnailer", "createAlbumThumbnails", [url, dimensions]);
+		}
 	}
-    cordova.exec(callback, thumbError, "Thumbnailer", "createVideoThumbnail", [url]);
 };
-Thumbnailer.prototype.createImageThumbnail = function(url, callback) {
-	if (url.toLowerCase().indexOf("file://")==0){
-		url =url.substring(7); 
-	}
-    cordova.exec(callback, thumbError, "Thumbnailer", "createImageThumbnail", [url]);
-};
-
-function thumbError(err){
-	alert('Error creating thumbnail!');
-};
-
-/**
- * Load Thumbnailer
- */
 
 if(!window.plugins) {
     window.plugins = {};

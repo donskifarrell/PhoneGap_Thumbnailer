@@ -45,7 +45,26 @@ window.plugins.thumbnailer.createImageThumbnail(pathToImage,
     		
 		//do something with files
 			
- 		});
+ 		},
+ 		// Optional dimensions supplied:
+ 		[ 512, //The Thumbnail width
+ 			512 // The Thumbnail height
+ 		]
+ 		);
+
+//CreateImage Thumbnails from a directory (album) of images
+window.plugins.thumbnailer.createAlbumThumbnails(pathToDirectory,
+	function(thumbnailPaths) {
+		alert(thumbnailPaths); // should alert created thumbnail image path
+    		
+		//do something with files
+			
+ 		},
+ 		// Optional dimensions supplied:
+ 		[ 512, //The Thumbnail width
+ 			512 // The Thumbnail height
+ 		]
+ 		);
 
 
 To create video thumbnail use this:
